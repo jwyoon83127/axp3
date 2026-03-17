@@ -118,7 +118,12 @@ def export_jira_as_data_to_csv():
         print(f"\n총 {len(all_issues)}개의 이슈를 찾았습니다. 상세 데이터를 수집하여 CSV로 작성합니다.")
 
         # 2. CSV 파일 작성
-        csv_path = os.path.join(os.path.dirname(__file__), filename)
+        csv_path = ""
+        if os.environ.get('VERCEL'):
+            csv_path = os.path.join('/tmp', filename)
+        else:
+            csv_path = os.path.join(os.path.dirname(__file__), filename)
+        
         with open(csv_path, mode='w', encoding='utf-8-sig', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(['이슈키', '이슈유형', '부모이슈', '상태', '고객사', '제목', '이슈본문', '댓글작성자', '댓글내용', '생성일', '완료일', '담당자'])
