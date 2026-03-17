@@ -985,6 +985,28 @@
             });
         });
 
+        function showIssueBody(node) {
+            document.getElementById('modalIssueKey').innerText = node['이슈키'] || '';
+            document.getElementById('modalIssueTitle').innerText = node['제목'] || '';
+            document.getElementById('modalAssignee').innerText = node['담당자'] || '미배정';
+            document.getElementById('modalIssueBody').innerText = node['이슈본문'] || '본문 내용이 없습니다.';
+            
+            const modal = document.getElementById('issueModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Scroll freeze
+        }
+
+        function closeIssueBody() {
+            const modal = document.getElementById('issueModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Scroll restore
+        }
+
+        // Close on background click
+        document.getElementById('issueModal').addEventListener('click', function(e) {
+            if (e.target === this) closeIssueBody();
+        });
+
         document.getElementById('csvFileInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
